@@ -1,0 +1,160 @@
+---
+import { Github, Linkedin, Mail } from "@lucide/astro";
+---
+
+<section class="hero">
+    <div class="hero__container">
+        <div class="hero__image-wrapper">
+            <div class="hero__image-border">
+                <img
+                    src="/src/assets/perfil.jpeg"
+                    alt="Foto de perfil"
+                    class="hero__image"
+                />
+            </div>
+        </div>
+
+        <h1 class="hero__title">Hola, soy Eduardo Coronell</h1>
+        <p class="hero__description">
+            Programador en formación apasionado por la tecnología y el
+            desarrollo de software.
+        </p>
+
+        <div class="hero__buttons">
+            <a href="/cv.pdf" download class="btn btn--outline">Descargar CV</a>
+        </div>
+
+        <div class="hero__social">
+            <a
+                href="https://github.com/EduardoNovato"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <Github size={28} stroke-width={1.8} />
+            </a>
+
+            <a
+                href="https://linkedin.com/in/eduardo-coronell"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <Linkedin size={28} stroke-width={1.8} />
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Reset básico */
+    body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: #fff;
+        color: #111;
+    }
+
+    /* Hero */
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0rem 1rem 0rem 1rem;
+        text-align: center;
+    }
+
+    .hero__container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .hero__image-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+    .hero__image-border {
+        background: linear-gradient(to right, #8b5cf6, #ec4899);
+        padding: 4px;
+        border-radius: 50%;
+    }
+
+    .hero__image {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: white;
+    }
+
+    .hero__title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        background: linear-gradient(to right, #111827, #1f0931, #111827);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 1rem 0;
+    }
+
+    .hero__description {
+        font-size: 1.25rem;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        color: #4b5563;
+        line-height: 1.6;
+    }
+
+    .hero__buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.3s ease;
+    }
+
+    .btn--primary {
+        background: linear-gradient(to right, #8b5cf6, #ec4899);
+        color: white;
+    }
+
+    .btn--primary:hover {
+        background: linear-gradient(to right, #7c3aed, #db2777);
+    }
+
+    .btn--outline {
+        border: 2px solid #8b5cf6;
+        color: #8b5cf6;
+        background: white;
+    }
+
+    .btn--outline:hover {
+        background: #f3f4f6;
+    }
+
+    .hero__social {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .hero__social img {
+        width: 24px;
+        height: 24px;
+        transition: transform 0.3s ease;
+    }
+
+    .hero__social a:hover img {
+        transform: scale(1.1);
+    }
+</style>

@@ -1,0 +1,202 @@
+---
+import { Github, ExternalLink, Star, GitFork } from "@lucide/astro";
+
+interface Repository {
+    id: number;
+    name: string;
+    description: string;
+    html_url: string;
+    homepage: string;
+    language: string;
+    stargazers_count: number;
+    forks_count: number;
+    topics: string[];
+}
+
+const username = "EduardoNovato";
+let repos: Repository[] = [];
+
+try {
+    const res = await fetch(
+        `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`,
+    );
+    if (!res.ok) throw new Error("GitHub API error");
+    const data = await res.json();
+
+    repos = data
+        .filter((repo: any) => !repo.fork && repo.description)
+        .slice(0, 6)
+        .map((repo: any) => ({
+            id: repo.id,
+            name: repo.name,
+            description: repo.description,
+            html_url: repo.html_url,
+            homepage: repo.homepage,
+            language: repo.language,
+            stargazers_count: repo.stargazers_count,
+            forks_count: repo.forks_count,
+            topics: repo.topics ?? [],
+        }));
+} catch (e) {
+    console.error("No se pudo cargar GitHub repos:", e);
+}
+---
+
+<section class="projects">
+    <h2>Mis Proyectos</h2>
+    <div class="projects__grid">
+        {
+            repos.map((repo) => (
+                <div class="card">
+                    <div class="card__header">
+                        <h3>{repo.name}</h3>
+                        <div class="card__links">
+                            <a href={repo.html_url} target="_blank">
+                                <Github size={18} />
+                            </a>
+                            {repo.homepage && (
+                                <a href={repo.homepage} target="_blank">
+                                    <ExternalLink size={18} />
+                                </a>
+                            )}
+                        </div>
+                    </div>
+                    <p class="card__description">{repo.description}</p>
+                    <div class="card__footer">
+                        <div class="stats">
+                            <span>
+                                <Star size={14} /> {repo.stargazers_count}
+                            </span>
+                            <span>
+                                <GitFork size={14} /> {repo.forks_count}
+                            </span>
+                            {repo.language && (
+                                <span class="lang">{repo.language}</span>
+                            )}
+                        </div>
+                        <div class="topics">
+                            {repo.topics.slice(0, 3).map((topic) => (
+                                <span class="badge">{topic}</span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+
+    <div class="projects__footer">
+        <a
+            href="https://github.com/EduardoNovato"
+            target="_blank"
+            class="btn-outline"
+        >
+            <Github size={18} /> Ver todos los proyectos
+        </a>
+    </div>
+</section>
+
+<style>
+    .projects {
+        padding: 0rem 1rem 1rem 1rem;
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .projects h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        background: linear-gradient(to right, #111, #7e22ce, #111);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
+    .projects__grid {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card__description {
+        margin: 0.75rem 0;
+        color: #555;
+    }
+
+    .card__footer {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .stats {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.875rem;
+        color: #666;
+    }
+
+    .stats span {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .lang {
+        background: #f0f0f0;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+    }
+
+    .topics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+
+    .badge {
+        border: 1px solid #ddd;
+        padding: 0.2rem 0.5rem;
+        font-size: 0.75rem;
+        border-radius: 6px;
+        color: #333;
+    }
+
+    .projects__footer {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #999;
+        padding: 0.75rem 1.25rem;
+        border-radius: 8px;
+        color: #333;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .btn-outline:hover {
+        border-color: #7e22ce;
+        color: #7e22ce;
+    }
+</style>
